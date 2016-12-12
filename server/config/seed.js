@@ -6,6 +6,7 @@
 'use strict';
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
+import Book from '../api/book/bood.model';
 
 Thing.find({}).remove()
   .then(() => {
@@ -36,6 +37,21 @@ Thing.find({}).remove()
       name: 'Deployment Ready',
       info: 'Easily deploy your app to Heroku or Openshift with the heroku '
             + 'and openshift subgenerators'
+    });
+  });
+  
+Book.find({}).remove()
+  .then(() => {
+    Book.create({
+      title: 'A',
+      authors: ['a'],
+      cover: 'a.a',
+      owner: 'me',
+      description: 'bleh',
+      inTrade: false
+    })
+    .then(() => {
+      console.log('finished populating books');
     });
   });
 
