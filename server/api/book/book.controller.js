@@ -115,9 +115,6 @@ export function create(req, res) {
       handleError(res);
     }
   });
-  return Book.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
 }
 
 // Upserts the given Book in the DB at the specified ID

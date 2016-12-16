@@ -6,10 +6,26 @@ const uiRouter = require('angular-ui-router');
 import routes from './book.routes';
 
 export class BookComponent {
+  
+  bookList = [];
+  
   /*@ngInject*/
-  constructor() {
-    this.message = 'Hello';
+  constructor($scope, $http, socket) {
+    this.$http = $http;
+    
+    $scope.$on('$destroy', function() {
+      socket.unsyncUpdates('book');
+    });
   }
+  
+  $onInit() {
+    this.$http.get('/api/books')
+      .then(response => {
+        this.bookList = response.data;
+        this.socket.syncUpdates('book', this.bookList);
+      });
+  }
+  
 }
 
 export default angular.module('booksApp.book', [uiRouter])

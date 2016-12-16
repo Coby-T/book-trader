@@ -1,1 +1,12 @@
-<div>This is the book view.</div>
+<div class="container">
+    <h3>All Books</h3>
+    <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="book in bookCtrl.bookList">
+        <li>
+            <a href="/show/{{book._id}}" uib-tooltip="{{book.description}}">
+                <img src="{{book.cover}}" width="100" />
+                <h4>{{book.title}}</h4>
+                <p>{{book.author}}</p>
+            </a>
+        </li>
+    </ul>
+</div>
