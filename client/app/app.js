@@ -28,12 +28,13 @@ import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import BookComponent from './book/book.component';
 import ProfileComponent from './profile/profile.component';
+import ViewbookComponent from './book/viewbook/viewbook.component';
 
 import './app.scss';
 
 angular.module('booksApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
   uiBootstrap, _Auth, account, admin, navbar, footer, main, constants, socket, util,
-  BookComponent, ProfileComponent
+  BookComponent, ProfileComponent, ViewbookComponent
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

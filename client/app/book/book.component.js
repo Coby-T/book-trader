@@ -28,6 +28,7 @@ export class BookComponent {
   
 }
 
+
 export default angular.module('booksApp.book', [uiRouter])
   .config(routes)
   .component('book', {

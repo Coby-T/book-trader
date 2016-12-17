@@ -1,1 +1,14 @@
-<div>This is the profile view.</div>
+<div class="container user-info">
+    {{profileCtrl.userInfo.email}}
+</div>
+<div class="container book-list">
+    <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="book in viewbookCtrl.bookList">
+        <li>
+            <a href="/viewbook/{{book._id}}" uib-tooltip="{{book.description}}">
+                <img src="{{book.cover}}" width="100" />
+                <h4>{{book.title}}</h4>
+                <p>{{book.author}}</p>
+            </a>
+        </li>
+    </ul>
+</div>

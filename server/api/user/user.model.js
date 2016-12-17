@@ -17,8 +17,7 @@ var UserSchema = new Schema({
     proposerBook: String,
     proposer: String,
     receiverBook: String,
-    receiver: String,
-    date: Date
+    receiver: String
   }],
   email: {
     type: String,

@@ -147,3 +147,16 @@ export function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
+
+// Sends a trade request
+export function request(req, res) {
+  // Needs requested book properties and proposer book properties and date
+  var requestInfo = {
+    receiverBook: req.params.id,
+    receiver: req.body.owner,
+    proposerBook: req.body.book,
+    proposer: req.user._id
+  };
+  
+  
+}
