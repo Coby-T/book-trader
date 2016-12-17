@@ -96,7 +96,7 @@ export function create(req, res) {
     handleError(res);
   }
   googleBooks.volumes.list({
-    auth: process.env.GOOGLE_API_KEY,
+    key: process.env.GOOGLE_API_KEY,
     q: req.body.search
   }, function(err, bookList) {
     if(err) throw err;

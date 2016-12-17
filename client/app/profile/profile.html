@@ -1,6 +1,15 @@
 <div class="container user-info">
     {{profileCtrl.userInfo.email}}
 </div>
+<div class="container add-book">
+    <form novalidate ng-submit="profileCtrl.addBook()" method="post" class="form-inline">
+        <div class="form-group">
+            <label for="title">Add book:</label>
+            <input type="text" name="query" id="query" placeholder="Search for books" ng-model="profileCtrl.bookQuery">
+        </div>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+    </form>
+</div>
 <div class="container book-list">
     <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="book in viewbookCtrl.bookList">
         <li>

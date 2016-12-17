@@ -37,7 +37,7 @@ export class ProfileComponent {
   
   addBook() {
     if(this.bookQuery) {
-      this.$http.post('/api/books/', this.bookQuery)
+      this.$http.post('/api/books/', {search: this.bookQuery})
         .then(response => {
           if (response.data && response.data.title) {
             this.bookList.push(response.data);
