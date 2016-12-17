@@ -9,8 +9,9 @@ router.get('/', controller.index);
 router.get('/user/:id', controller.indexUser);
 router.get('/show/:id', controller.show);
 router.post('/', controller.create);
-router.put('/:id', controller.upsert);
-router.patch('/:id', controller.patch);
+router.post('/trade/:id', controller.request);
+//router.put('/:id', controller.upsert);
+//router.patch('/:id', controller.patch);
 router.delete('/delete/:id', controller.destroy);
 
 module.exports = router;

@@ -151,12 +151,16 @@ export function destroy(req, res) {
 // Sends a trade request
 export function request(req, res) {
   // Needs requested book properties and proposer book properties and date
-  var requestInfo = {
-    receiverBook: req.params.id,
-    receiver: req.body.owner,
-    proposerBook: req.body.book,
-    proposer: req.user._id
-  };
+  var book1 = req.params.id;
+  var book2 = req.body.book;
   
-  
+  Book.findByIdAndUpdate(book1).exec()
+    .then(handleEntityNotFound(res))
+    .then(patchUpdates({inTrade: true}))
+    .catch(handleError(res));
+    
+  Book.findByIdAndUpdate(book2).exec()
+    .then(handleEntityNotFound(res))
+    .then(patchUpdates({inTrade: true}))
+    .catch(handleError(res));
 }
