@@ -100,8 +100,7 @@ export function create(req, res) {
     q: req.body.search
   }, function(err, bookList) {
     if(err) throw err;
-    try {
-      Book.create({
+    return Book.create({
         title: bookList.items[0].volumeInfo.title,
         authors: bookList.items[0].volumeInfo.authors,
         cover: bookList.items[0].volumeInfo.imageLinks.thumbnail,
@@ -111,9 +110,6 @@ export function create(req, res) {
       })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
-    } catch(error) {
-      handleError(res);
-    }
   });
 }
 
