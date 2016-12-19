@@ -11,28 +11,46 @@ export class ProfileComponent {
   userInfo;
   userId;
   bookQuery;
+  isUser = false;
   
   /*@ngInject*/
   constructor($scope, $http, $stateParams, socket, Auth) {
     this.$http = $http;
-    this.userId = $stateParams.id ? $stateParams.id : Auth.getCurrentUser()._id;
-    
+    this.$stateParams = $stateParams;
+    this.Auth = Auth;
     $scope.$on('$destroy', function() {
       socket.unsyncUpdates('book');
     });
   }
   
   $onInit() {
-    this.$http.get('/api/users/me/')
-      .then(response => {
-        this.userInfo = response.data;
-      });
-    
-    this.$http.get('/api/books/user/' + this.userId)
-      .then(response => {
-        this.bookList = response.data;
-        this.socket.syncUpdates('book', this.bookList);
-      });
+    this.Auth.getCurrentUser().then(user => {
+      if (!this.$stateParams.id || this.$stateParams.id == user._id) {
+        this.isUser = true;
+        this.$http.get('/api/books/user/')
+          .then(response => {
+            console.log("mine");
+            this.bookList = response.data;
+            this.socket.syncUpdates('book', this.bookList);
+          });
+        this.$http.get('/api/users/me/')
+          .then(response => {
+            this.userInfo = response.data;
+          });
+      }
+      else {
+        this.$http.get('/api/books/user/' + this.$stateParams.id)
+          .then(response => {
+            console.log("not mine");
+            this.bookList = response.data;
+            this.socket.syncUpdates('book', this.bookList);
+          });
+        this.$http.get('/api/users/' + this.$stateParams.id)
+          .then(response => {
+            this.userInfo = response.data;
+          });
+      }
+    });
   }
   
   addBook() {

@@ -12,12 +12,13 @@ export class ViewbookComponent {
   /*@ngInject*/
   constructor($scope, $http, $stateParams) {
     this.$http = $http;
-    this.bookId = $stateParams.id;
+    this.$stateParams = $stateParams;
   }
   
   $onInit() {
-    this.$http.get('/api/books/show/' + this.bookId)
+    this.$http.get('/api/books/show/' + this.$stateParams.id)
       .then(response => {
+        this.bookId = this.$stateParams.id;
         this.bookData = response.data;
       });
   }

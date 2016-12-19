@@ -1,7 +1,7 @@
 <div class="container user-info">
-    {{profileCtrl.userInfo.email}}
+    {{profileCtrl.userInfo.name}}
 </div>
-<div class="container add-book">
+<div class="container add-book" ng-show="profileCtrl.isUser">
     <form novalidate ng-submit="profileCtrl.addBook()" method="post" class="form-inline">
         <div class="form-group">
             <label for="title">Add book:</label>
@@ -11,7 +11,7 @@
     </form>
 </div>
 <div class="container book-list">
-    <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="book in viewbookCtrl.bookList">
+    <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="book in profileCtrl.bookList">
         <li>
             <a href="/viewbook/{{book._id}}" uib-tooltip="{{book.description}}">
                 <img src="{{book.cover}}" width="100" />

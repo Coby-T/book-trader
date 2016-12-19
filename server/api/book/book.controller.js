@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import Book from './book.model';
+import User from './../user/user.model';
 
 var google = require('googleapis');
 var googleBooks = google.books('v1');
@@ -141,22 +142,5 @@ export function destroy(req, res) {
   return Book.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
-    .catch(handleError(res));
-}
-
-// Sends a trade request
-export function request(req, res) {
-  // Needs requested book properties and proposer book properties and date
-  var book1 = req.params.id;
-  var book2 = req.body.book;
-  
-  Book.findByIdAndUpdate(book1).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates({inTrade: true}))
-    .catch(handleError(res));
-    
-  Book.findByIdAndUpdate(book2).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates({inTrade: true}))
     .catch(handleError(res));
 }

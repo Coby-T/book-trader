@@ -46,7 +46,7 @@ Book.find({}).remove()
       title: 'A',
       authors: ['a'],
       cover: 'a.a',
-      owner: 'me',
+      //owner: 'me',
       description: 'bleh',
       inTrade: false
     })

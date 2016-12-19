@@ -135,26 +135,6 @@ export function me(req, res, next) {
 }
 
 /**
- * Request a book
- */
-export function request(req, res) {
-  var requestInfo = {
-    receiverBook: req.params.id,
-    receiver: req.body.owner,
-    proposerBook: req.body.book,
-    proposer: req.user._id
-  };
-  
-  User.findByIdAndUpdate(requestInfo.proposer, 
-    {$push: {"requests": requestInfo}}, 
-    {upsert: true});
-    
-  User.findByIdAndUpdate(requestInfo.receiver, 
-    {$push: {"requests": requestInfo}}, 
-    {upsert: true});
-}
-
-/**
  * Authentication callback
  */
 export function authCallback(req, res) {
