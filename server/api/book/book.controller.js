@@ -1,18 +1,18 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/books              ->  index
+ * GET     /api/books/user         ->  indexUser
+ * GET     /api/books/user/:id     ->  indexUser
+ * GET     /api/books/show/:id     ->  show
  * POST    /api/books              ->  create
- * GET     /api/books/:id          ->  show
- * PUT     /api/books/:id          ->  upsert
- * PATCH   /api/books/:id          ->  patch
- * DELETE  /api/books/:id          ->  destroy
+ * POST    /api/books/trade        ->  trade
+ * DELETE  /api/books/delete/:id   ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
 import Book from './book.model';
-import User from './../user/user.model';
 
 var google = require('googleapis');
 var googleBooks = google.books('v1');
@@ -106,15 +106,14 @@ export function create(req, res) {
         authors: bookList.items[0].volumeInfo.authors,
         cover: bookList.items[0].volumeInfo.imageLinks.thumbnail,
         description: bookList.items[0].volumeInfo.description ? bookList.items[0].volumeInfo.description : 'No description available...',
-        owner: req.user._id,
-        inTrade: false
+        owner: req.user._id
       })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
   });
 }
 
-// Upserts the given Book in the DB at the specified ID
+/*// Upserts the given Book in the DB at the specified ID
 export function upsert(req, res) {
   if(req.body._id) {
     delete req.body._id;
@@ -136,11 +135,35 @@ export function patch(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+*/
 
 // Deletes a Book from the DB
 export function destroy(req, res) {
-  return Book.findById(req.params.id).exec()
+  if (Book.findById(req.params.id).owner == req.user._id) {
+    return Book.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+  }
+}
+
+// Initiates or ends trade for Book in DB
+export function trade(req, res) {
+  var book1 = req.body.book1;
+  var book2 = req.body.book2;
+  var owner1 = req.body.owner1;
+  var owner2 = req.body.owner2;
+  if (req.body.request) {
+    Book.findByIdAndUpdate(book1, {inTrade: true});
+    Book.findByIdAndUpdate(book2, {inTrade: true});
+  }
+  else if (req.body.accept) {
+    Book.findByIdAndUpdate(book1, {owner: owner2, inTrade: false});
+    Book.findByIdAndUpdate(book2, {owner: owner1, inTrade: false});
+  }
+  else {
+    Book.findByIdAndUpdate(book1, {inTrade: false});
+    Book.findByIdAndUpdate(book2, {inTrade: false});
+  }
+  
 }

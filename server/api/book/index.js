@@ -11,9 +11,9 @@ router.get('/user', auth.isAuthenticated(), controller.indexUser);
 router.get('/user/:id', auth.isAuthenticated(), controller.indexUser);
 router.get('/show/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
-//router.post('/trade/:id', controller.requests
+router.post('/trade/',auth.isAuthenticated(), controller.trade);
 //router.put('/:id', controller.upsert);
 //router.patch('/:id', controller.patch);
-router.delete('/delete/:id', controller.destroy);
+router.delete('/delete/:id', auth.isAuthenticated(), controller.destroy);
 
 module.exports = router;

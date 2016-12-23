@@ -1,17 +1,15 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/requests              ->  index
+ * GET     /api/requests              ->  indexUser
+ * PUT     /api/requests              ->  accept(or delete)
  * POST    /api/requests              ->  create
- * GET     /api/requests/:id          ->  show
- * PUT     /api/requests/:id          ->  upsert
- * PATCH   /api/requests/:id          ->  patch
- * DELETE  /api/requests/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
 import Request from './request.model';
+import Promise from 'bluebird';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -63,6 +61,34 @@ function handleError(res, statusCode) {
   };
 }
 
+// Index all requests for a User
+export function indexUser(req, res) {
+  var received = Request.find({receiver: req.user._id});
+  var proposed = Request.find({proposer: req.user._id});
+  
+  Promise.join(received, proposed, (received, proposed) => {
+    var list = {received: received, proposed: proposed};
+    return list.then(handleEntityNotFound(res))
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  });
+}
+
+// Accept or Decline an existing trade
+export function accept(req, res) {
+  Request.findById(req.body.requestId).exec()
+    .then(removeEntity(res))
+    .catch(handleError());
+}
+
+// Creates a new Request in the DB
+export function create(req, res) {
+  return Request.create(req.body)
+    .then(respondWithResult(res, 201))
+    .catch(handleError(res));
+}
+
+/*
 // Gets a list of Requests
 export function index(req, res) {
   return Request.find().exec()
@@ -78,12 +104,7 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
-// Creates a new Request in the DB
-export function create(req, res) {
-  return Request.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
-}
+
 
 // Upserts the given Request in the DB at the specified ID
 export function upsert(req, res) {
@@ -115,3 +136,4 @@ export function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
+*/

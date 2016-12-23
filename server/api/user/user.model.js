@@ -12,13 +12,6 @@ var UserSchema = new Schema({
     city: String,
     state: String
   },
-  books: [String],
-  requests: [{
-    proposerBook: String,
-    proposer: String,
-    receiverBook: String,
-    receiver: String
-  }],
   email: {
     type: String,
     lowercase: true,

@@ -7,8 +7,7 @@ var BookSchema = new mongoose.Schema({
   authors: [String],
   cover: String,
   owner: String,
-  description: String,
-  inTrade: Boolean
+  description: String
 });
 
 export default mongoose.model('Book', BookSchema);
