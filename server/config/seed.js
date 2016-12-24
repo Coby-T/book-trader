@@ -8,7 +8,7 @@ import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
 import Book from '../api/book/book.model';
 
-Thing.find({}).remove()
+/*Thing.find({}).remove()
   .then(() => {
     Thing.create({
       name: 'Development Tools',
@@ -73,3 +73,4 @@ User.find({}).remove()
       console.log('finished populating users');
     });
   });
+*/

@@ -61,17 +61,17 @@ function handleError(res, statusCode) {
   };
 }
 
-// Index all requests for a User
+// Index all requests for the registered user
 export function indexUser(req, res) {
-  var received = Request.find({receiver: req.user._id});
-  var proposed = Request.find({proposer: req.user._id});
+  var id = req.user._id;
+  var received = Request.find({receiver: id}).exec();
+  var proposed = Request.find({proposer: id}).exec();
   
-  Promise.join(received, proposed, (received, proposed) => {
-    var list = {received: received, proposed: proposed};
-    return list.then(handleEntityNotFound(res))
-      .then(respondWithResult(res))
-      .catch(handleError(res));
-  });
+  return Promise.join(received, proposed)
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+
 }
 
 // Accept or Decline an existing trade
