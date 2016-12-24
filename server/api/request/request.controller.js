@@ -76,7 +76,7 @@ export function indexUser(req, res) {
 
 // Accept or Decline an existing trade
 export function accept(req, res) {
-  Request.findById(req.body.requestId).exec()
+  return Request.findById(req.body.requestId).exec()
     .then(removeEntity(res))
     .catch(handleError());
 }
